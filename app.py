@@ -10,6 +10,7 @@ def generate_colors(ncolors):
 
 def generate_random(nsamples=1000, ndims=4, nclusters=4):
     X = np.random.random((nsamples, ndims))
+    X = X/np.sqrt((X ** 2).sum(axis=1))[:, None]
     km = KMeans(n_clusters=nclusters)
     km.fit(X)
     pca = PCA(n_components=2)
@@ -35,14 +36,24 @@ def regenerate_plot(nsamples=1000, ndims=4, nclusters=4):
 
 if __name__=='__main__':
     st.title('working app')
-    data, projected, labels = generate_random()
-    fig = plot(projected, labels)
-    st.write(fig)
+    #data, projected, labels = generate_random()
+    #fig = plot(projected, labels)
+    #st.write(fig)
 
-    add_selectbox = st.sidebar.selectbox(
-    "Regenerate this random pointless data?",
-    (("Yes")))
+    ndims = st.sidebar.text_input(
+        label="number of dimensions",
+        value=4
+        )
+    nsamples = st.sidebar.text_input(
+        label="number of datapoints",
+        value=1000)
+    nclusters = st.sidebar.text_input(
+        label="number of clusters",
+        value=4)
 
-    regenerate_plot()
+
+    regenerate_plot(ndims=int(ndims),
+        nsamples=int(nsamples),
+        nclusters=int(nclusters))
 
 

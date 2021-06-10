@@ -8,6 +8,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8501
 
-ENTRYPOINT ["streamlit","run"]
-
-CMD ["app.py"]
+CMD streamlit run --server.port 8080 --server.enableCORS false app.py
